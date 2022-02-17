@@ -33,7 +33,7 @@ THRESHOLD = 0.05 # p-value, essentially
 
 ################### RUN APP HERE ####################
 
-if uploaded_mtx and uploaded_genes and uploaded_metadata::
+if uploaded_mtx and uploaded_genes and uploaded_metadata:
     gene_names_all = list(pd.read_csv(uploaded_genes, header = None, index_col = None)[0])
     ligand_names = st.text_input('Please choose the ligands of interest in order, separated by commas').replace(' ', '').split(',')
     receptor_names = st.text_input('Please choose the receptor of interest in order, separated by commas').replace(' ', '').split(',')
