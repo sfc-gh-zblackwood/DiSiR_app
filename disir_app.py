@@ -17,7 +17,7 @@ st.title('DiSiR')
 
 col1, col2 = st.columns(2)
 
-input_mtx = st.text_input("Provide path to matrix.mtx", key="mtx")
+uploaded_mtx = st.file_uploader("Provide path to matrix.mtx", key="mtx")
 
 uploaded_genes = col1.file_uploader("Upload genes.txt")
 uploaded_metadata = col1.file_uploader("Upload metadata (csv or json)")
@@ -33,14 +33,14 @@ THRESHOLD = 0.05 # p-value, essentially
 
 ################### RUN APP HERE ####################
 
-if os.path.isfile(input_mtx) and uploaded_genes and uploaded_metadata:
+if uploaded_mtx and uploaded_genes and uploaded_metadata::
     gene_names_all = list(pd.read_csv(uploaded_genes, header = None, index_col = None)[0])
     ligand_names = st.text_input('Please choose the ligands of interest in order, separated by commas').replace(' ', '').split(',')
     receptor_names = st.text_input('Please choose the receptor of interest in order, separated by commas').replace(' ', '').split(',')
     
     if 'metadata' not in st.session_state and 'scRNA' not in st.session_state:
         data_load_state = st.text('If you are loading your matrix for the first time, it might take a while...')
-        scRNA_array, metadata = ds.load_data(input_mtx, uploaded_metadata)
+        scRNA_array, metadata = ds.load_data(uploaded_mtx, uploaded_metadata)
         st.session_state['metadata'] = metadata
         st.session_state['scRNA'] = scRNA_array
         data_load_state.text('Done!')
@@ -142,10 +142,8 @@ if os.path.isfile(input_mtx) and uploaded_genes and uploaded_metadata:
         col1.text(f'The ligands are {ligand_names}')
         col1.text(f'The corresponding receptors are {receptor_names}')
  
-elif not os.path.isfile(input_mtx):
-    data_load_state = st.text('Please input the correct path to the matrix')
-elif not uploaded_genes and not uploaded_metadata:
-    data_load_state = st.text('Please load the genes and the metadata (csv or json)')
+elif not uploaded_mtx or not uploaded_genes or not uploaded_metadata:
+    data_load_state = st.text('Please load the matrix, the genes, and the metadata (csv or json)')
 
 
 ######################################################
