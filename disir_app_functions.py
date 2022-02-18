@@ -28,11 +28,8 @@ rcParams.update({'font.size': 15})
 
 
 @st.cache
-def load_data(input_mtx, uploaded_metadata):
-    '''this function loads all the data'''
-    scRNA_data = mmread(input_mtx)
-    scRNA_array = scRNA_data.toarray()
-    scRNA_array = np.transpose(scRNA_array)
+def load_metadata(uploaded_metadata):
+    '''loads metadata'''
     if '.json' in uploaded_metadata.name:
         meta_in = pd.read_json(uploaded_metadata)
         metadata = {}
@@ -42,7 +39,42 @@ def load_data(input_mtx, uploaded_metadata):
         metadata.index.name = 'cell_id'
     else:
         metadata = pd.read_csv(uploaded_metadata, index_col=0)
-    return scRNA_array, metadata
+    return metadata
+
+
+def load_mtx_data(uploaded_mtx, 
+              metadata,
+              gene_index):
+    '''loads matrix data'''
+    # matrix
+    header = False
+    gene_dict = {}
+    for liney in uploaded_mtx:
+        lineysp = liney.decode('UTF-8')
+        if lineysp.startswith('%') == False:
+            lineysp = lineysp.rstrip().split(' ')
+            if header == False:
+                if int(lineysp[0]) == len(metadata):
+                    cell_ix = 0
+                    gene_ix = 1
+                else:
+                    cell_ix = 1
+                    gene_ix = 0
+                header = True
+            else:
+                celln = int(lineysp[cell_ix])
+                genen = int(lineysp[gene_ix])-1
+                exp =  float(lineysp[2])
+                if genen in gene_index:
+                    if genen not in gene_dict:
+                        gene_dict[genen] = [0] * (celln-1) + [exp]
+                    else:
+                        gene_dict[genen] += [0] * (celln-len(gene_dict[genen])-1) + [exp]
+    final_array = []
+    for ix in gene_index:
+        final_array.append(gene_dict[ix] + [0] * (len(metadata)-len(gene_dict[ix])))
+    final_array = np.array(final_array)
+    return final_array
 
 
 def filter_out(scRNA_array,
