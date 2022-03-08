@@ -90,10 +90,9 @@ def filter_out(scRNA_array,
         subset_track = list(subset.keys())[0]
         subset_labels = metadata[subset_track]
         subset_cat  = subset[subset_track]
-        cell_type_keep = [i for i, j in enumerate(subset_labels)
-                          if i in cell_type_keep and j in subset_cat]
+        cell_type_keep = [i for i in cell_type_keep if subset_labels[i] in subset_cat]
         
-    cell_type_labels = [i[1] for i in enumerate(cell_type_labels) if i[0] in cell_type_keep]
+    cell_type_labels = [cell_type_labels[i] for i in cell_type_keep]
     scRNA_array = scRNA_array[ : , cell_type_keep]
     return scRNA_array, cell_type_labels
 
