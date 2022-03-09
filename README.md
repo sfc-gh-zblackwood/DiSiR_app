@@ -4,4 +4,4 @@ This is a [CellPhoneDB](https://github.com/ventolab/CellphoneDB)-like framework 
 
 The app is hosted for free [here](https://share.streamlit.io/akurlovs/disir_app/main/disir_app.py), kudos to [Streamlit](https://streamlit.io/). Given that it's free, it is only able to accommodate small datasets for now.
 
-Please send your questions to Andre Kurlovs (a.kurlovs@gmail.com) if you have any questions or concerns. The app is based on the work by Milad Vahid (who wrote most of the code) and Andre Kurlovs (who helped with the code and produced the app) at [Sanofi US](https://www.sanofi.com).
+Please send your questions to Andre Kurlovs (a.kurlovs@gmail.com) if you have any questions or concerns. The app is based on the work by Milad Vahid (who wrote most of the code) and Andre Kurlovs (who helped with the code and produced the visualizations/app) at [Sanofi US](https://www.sanofi.com).
