@@ -73,7 +73,7 @@ def load_mtx_data(uploaded_mtx,
     final_array = []
     for ix in gene_index:
         final_array.append(gene_dict[ix] + [0] * (len(metadata)-len(gene_dict[ix])))
-    final_array = np.array(final_array)
+    final_array = np.log2(np.array(final_array))
     return final_array
 
 
@@ -369,7 +369,7 @@ def plot_cell_dist(average_expression_df,
     circles = []
     for i in range(Nx):
         for j in range(Ny):
-            rad = log2(smaller_frac_expression_df.iloc[j, i]*100+1)/13.28
+            rad = (smaller_frac_expression_df.iloc[j, i]*100+1)/13.28
             col = mapper.to_rgba(average_expression_df.iloc[j, i])
             patch = pch.Circle((i+1, j+0.5), rad, fc=col, ec='black')
             text = f'{int(number_expression_df.iloc[j, i])} ({round(actual_frac_expression_df.iloc[j, i]*100, 1)}%)'
@@ -379,7 +379,7 @@ def plot_cell_dist(average_expression_df,
     ax.set(xticks=np.arange(1, Nx+2), yticks=np.arange(0.5, Ny+0.5), yticklabels=ylabels)
     ax.set_ylim(0, Ny+0.25)
     ax.set_xticklabels(xlabels+[''], rotation=80)
-    plt.colorbar(mapper, ax=ax, label='log(expression)', pad=0.025)
+    plt.colorbar(mapper, ax=ax, label='log2(expression)', pad=0.025)
     st.pyplot(fig)
     plt.close('all')
     
