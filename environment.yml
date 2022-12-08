@@ -4,4 +4,4 @@ dependencies:
     - scipy
     - statsmodels
     - matplotlib
-    - streamlit
+    - gxx_linux-64==11.1.0
