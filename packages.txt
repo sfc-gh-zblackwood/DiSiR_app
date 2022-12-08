@@ -1,3 +1,2 @@
 libstdc++6
 gcc-4.9
-gxx_linux-64==11.1.0
