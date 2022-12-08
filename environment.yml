@@ -4,4 +4,4 @@ dependencies:
     - scipy
     - statsmodels
     - matplotlib
-    
+    - streamlit
